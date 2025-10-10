@@ -1,0 +1,9 @@
+﻿CREATE TABLE [Spel] (
+ [SpelID] INT IDENTITY (1,1),
+    [Status] VARCHAR(50) NOT NULL,
+    [VinnarID] INT NOT NULL,
+
+	CONSTRAINT [PK_Tbl_Spel] PRIMARY KEY CLUSTERED ([SpelID] ASC),
+	FOREIGN KEY (VinnarID) REFERENCES Spelare(SpelarID)
+
+);
