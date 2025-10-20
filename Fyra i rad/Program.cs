@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using Web.Data; // <-- ändra till ditt namespace där AppDbContext ligger
+using Fyra_i_rad.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Lägg till databas-koppling (hämtar connection string från appsettings.Development.json)
-builder.Services.AddDbContext<AppDbContext>(options =>
+// Lägg till databas­koppling (connection string finns i appsettings.Development.json)
+builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
@@ -23,7 +23,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthorization();
+app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
