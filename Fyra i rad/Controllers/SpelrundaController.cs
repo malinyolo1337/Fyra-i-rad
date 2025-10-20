@@ -59,16 +59,16 @@ namespace Fyra_i_rad.Controllers
         public IActionResult Drop(int kolumn)
         {
             int spelID = HttpContext.Session.GetInt32("SpelID") ?? 0;
-            int spelareID = HttpContext.Session.GetInt32("SpelareID") ?? 0;
+            int spelarID = HttpContext.Session.GetInt32("SpelarID") ?? 0;
 
-            if (SpelrundaMethods.ÄrDragGiltigt(connectionString, spelID, kolumn, spelareID))
+            if (SpelrundaMethods.ÄrDragGiltigt(connectionString, spelID, kolumn, spelarID))
             {
-                SpelrundaMethods.SparaDrag(connectionString, spelID, kolumn, spelareID);
+                SpelrundaMethods.SparaDrag(connectionString, spelID, kolumn, spelarID);
 
-                if (SpelrundaMethods.KontrolleraVinst(connectionString, spelID, kolumn, spelareID))
+                if (SpelrundaMethods.KontrolleraVinst(connectionString, spelID, kolumn, spelarID))
                 {
-                    SpelrundaMethods.UppdateraSpelTillVinst(connectionString, spelID, spelareID);
-                    TempData["Message"] = $"Spelare {spelareID} vann!";
+                    SpelrundaMethods.UppdateraSpelTillVinst(connectionString, spelID, spelarID);
+                    TempData["Message"] = $"Spelare {spelarID} vann!";
                 }
             }
 

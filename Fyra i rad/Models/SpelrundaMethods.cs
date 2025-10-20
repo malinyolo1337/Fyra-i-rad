@@ -104,10 +104,10 @@ namespace Fyra_i_rad.Models
                 }
 
                 using (SqlCommand cmd = new SqlCommand(
-                    "INSERT INTO Spelrunda (SpelID, SpelarID, Kolumn, Dragsekvens) VALUES (@SpelID, @SpelareID, @Kolumn, @Dragsekvens)", conn))
+                    "INSERT INTO Spelrunda (SpelID, SpelarID, Kolumn, Dragsekvens) VALUES (@SpelID, @SpelarID, @Kolumn, @Dragsekvens)", conn))
                 {
                     cmd.Parameters.AddWithValue("@SpelID", spelID);
-                    cmd.Parameters.AddWithValue("@SpelareID", spelarID);
+                    cmd.Parameters.AddWithValue("@SpelarID", spelarID);
                     cmd.Parameters.AddWithValue("@Kolumn", kolumn);
                     cmd.Parameters.AddWithValue("@Dragsekvens", dragsekvens);
                     cmd.ExecuteNonQuery();
@@ -165,16 +165,16 @@ namespace Fyra_i_rad.Models
             {
                 conn.Open();
 
-                using (SqlCommand cmd = new SqlCommand("UPDATE Spel SET Status = 'Slutfört', VinnarID = @SpelareID WHERE SpelID = @SpelID", conn))
+                using (SqlCommand cmd = new SqlCommand("UPDATE Spel SET Status = 'Slutfört', VinnarID = @SpelarID WHERE SpelID = @SpelID", conn))
                 {
                     cmd.Parameters.AddWithValue("@SpelID", spelID);
-                    cmd.Parameters.AddWithValue("@SpelareID", spelarID);
+                    cmd.Parameters.AddWithValue("@SpelarID", spelarID);
                     cmd.ExecuteNonQuery();
                 }
 
                 using (SqlCommand cmd = new SqlCommand("UPDATE Spelare SET AntalVinster = AntalVinster + 1 WHERE SpelarID = @SpelareID", conn))
                 {
-                    cmd.Parameters.AddWithValue("@SpelareID", spelarID);
+                    cmd.Parameters.AddWithValue("@SpelarID", spelarID);
                     cmd.ExecuteNonQuery();
                 }
             }
