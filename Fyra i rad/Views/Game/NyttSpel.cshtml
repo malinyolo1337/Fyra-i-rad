@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Nytt spel";
+    var spelare = (IEnumerable<SelectListItem>)ViewBag.Spelare;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label class="form-label">Välj motspelare</label>
+        <select name="opponentId" class="form-select" asp-items="spelare"></select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Starta</button>
+    <a asp-action="Index" class="btn btn-link">Avbryt</a>
+</form>

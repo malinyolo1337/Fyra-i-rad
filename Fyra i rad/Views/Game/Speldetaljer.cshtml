@@ -1,0 +1,66 @@
+﻿@model Fyra_i_rad.Models.GameModel
+
+@{
+    ViewData["Title"] = "Speldetaljer";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>GameModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SpelID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SpelID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Skapad)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Skapad)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Avslutad)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Avslutad)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VinnarID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VinnarID)
+        </dd>
+    </dl>
+
+    @if (Model.Status == Fyra_i_rad.Models.GameStatus.Active)
+    {
+        <form asp-action="End" method="post" class="mt-3">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.SpelID" />
+            <button type="submit" class="btn btn-outline-danger"
+                    onclick="return confirm('Är du säker på att du vill avsluta spelet?');">
+                Avsluta spel
+            </button>
+        </form>
+    }
+
+    <p class="mt-3">
+        <a asp-action="Index" class="btn btn-link">Tillbaka</a>
+    </p>
+
+
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
