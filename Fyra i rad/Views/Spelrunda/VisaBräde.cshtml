@@ -1,0 +1,43 @@
+﻿ @model int[,]
+
+
+
+<h2>Fyra i rad</h2>
+
+
+@{
+    ViewData["Title"] = "Fyra i rad";
+    int rows = Model.GetLength(0);
+    int cols = Model.GetLength(1);
+}
+
+<h2>Spelare @ViewBag.AktuellSpelare</h2>
+
+<form method="post" asp-action="Drop">
+    <table>
+        <tr>
+            @for (int c = 0; c < cols; c++)
+            {
+                <td>
+                    <button type="submit" name="kolumn" value="@c">↓</button>
+                </td>
+            }
+        </tr>
+
+        @for (int r = 0; r < rows; r++)
+        {
+            <tr>
+                @for (int c = 0; c < cols; c++)
+                {
+                    var cell = Model[r, c];
+                    string color = cell == 1 ? "red" : cell == 2 ? "yellow" : "white";
+                    <td style="width:40px; height:40px; background-color:@color; border:1px solid black;"></td>
+                }
+            </tr>
+        }
+    </table>
+</form>
+
+<form method="get" asp-action="Reset">
+    <button type="submit">Starta om</button>
+</form>
