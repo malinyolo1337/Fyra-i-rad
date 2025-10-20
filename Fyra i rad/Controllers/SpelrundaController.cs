@@ -19,7 +19,7 @@ namespace Fyra_i_rad.Controllers
 
         public SpelrundaController(IConfiguration config)
         {
-            connectionString = config.GetConnectionString("Default");
+            connectionString = config.GetConnectionString("DefaultConnection");
         }
 
         public IActionResult VisaBräde(int spelID)
