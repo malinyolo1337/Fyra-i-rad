@@ -1,0 +1,26 @@
+﻿@model FyraIRad.Models.SpelarModel
+
+@{
+    ViewData["Title"] = "Logga in";
+}
+
+<h2>Logga in</h2>
+
+<form asp-action="Login" method="post">
+    <div class="form-group">
+        <label>Användarnamn</label>
+        <input name="username" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Lösenord</label>
+        <input name="password" type="password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Logga in" class="btn btn-primary" />
+    </div>
+    <div class="text-danger">@ViewBag.Error</div>
+</form>
+
+<div>
+    <a asp-action="InsertSpelar">Skapa ny spelare</a>
+</div>

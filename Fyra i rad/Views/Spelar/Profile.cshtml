@@ -1,0 +1,15 @@
+﻿@model FyraIRad.Models.SpelarModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+
+<h2>Välkommen, @ViewBag.Username!</h2>
+
+<p>Markör: @ViewBag.Markör</p>
+<p>Vinster: @ViewBag.Vinster</p>
+<p>Förluster: @ViewBag.Förluster</p>
+
+<a asp-action="Logout">Logga ut</a>
+
