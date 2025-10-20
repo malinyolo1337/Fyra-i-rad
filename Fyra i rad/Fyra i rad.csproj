@@ -13,4 +13,15 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Inkluderar Data.cs som ligger en nivå upp -->
+    <Compile Include="..\Data.cs" />
+  </ItemGroup>
+
 </Project>
+
