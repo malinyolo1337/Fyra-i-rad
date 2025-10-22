@@ -364,3 +364,5 @@ FodyWeavers.xsd
 
 # Ignore only development settings files
 **/appsettings.Development.json
+Fyra i rad/appsettings.Development.json
+**/appsettings.Development.json
