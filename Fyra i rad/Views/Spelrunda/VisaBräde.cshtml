@@ -30,7 +30,7 @@
                 @for (int c = 0; c < cols; c++)
                 {
                     var cell = Model[r, c];
-                    string color = cell == 1 ? "red" : cell == 2 ? "yellow" : "white";
+                    string color = cell == 1 ? "red" : cell == 2 ? "blue" : "white";
                     <td style="width:40px; height:40px; background-color:@color; border:1px solid black;"></td>
                 }
             </tr>
