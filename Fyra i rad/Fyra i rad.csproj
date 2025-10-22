@@ -18,10 +18,5 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- Inkluderar Data.cs som ligger en nivå upp -->
-    <Compile Include="..\Data.cs" />
-  </ItemGroup>
-
 </Project>
 
