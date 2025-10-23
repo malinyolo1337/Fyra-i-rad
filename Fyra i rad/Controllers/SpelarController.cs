@@ -2,16 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
 
 namespace FyraIRad.Controllers
 {
     public class SpelarController : Controller
     {
         private readonly IConfiguration _configuration;
+        private readonly string _connectionString;
 
         public SpelarController(IConfiguration configuration)
         {
             _configuration = configuration;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public IActionResult Index()
@@ -24,6 +27,56 @@ namespace FyraIRad.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult Login(string username, string password)
+        {
+            var spelarMethods = new SpelarMethods(_configuration);
+            var spelar = spelarMethods.Login(username, password);
+
+            if (spelar != null)
+            {
+                HttpContext.Session.SetString("Username", spelar.Username);
+                HttpContext.Session.SetInt32("SpelarID", spelar.SpelarID);
+                return RedirectToAction("Profile");
+            }
+
+            ViewBag.Error = "Fel användarnamn eller lösenord";
+            return View();
+        }
+
+
+        [HttpPost]
+        public IActionResult LoginTvåSpelare(string username1, string password1, string username2, string password2)
+        {
+            var spelarMethods = new SpelarMethods(_configuration);
+            var spelar1 = spelarMethods.Login(username1, password1);
+            var spelar2 = spelarMethods.Login(username2, password2);
+
+            if (spelar1 == null || spelar2 == null || spelar1.SpelarID == spelar2.SpelarID)
+            {
+                ViewBag.Error = "Felaktiga uppgifter eller samma spelare.";
+                return View();
+            }
+
+            HttpContext.Session.SetInt32("SpelarID1", spelar1.SpelarID);
+            HttpContext.Session.SetInt32("SpelarID2", spelar2.SpelarID);
+
+            return RedirectToAction("StartaSpel", "Game");
+        }
+
+        private void LäggTillSpeldeltagare(int spelID, int spelarID, string spelarRoll)
+        {
+            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            conn.Open();
+
+            var cmd = new SqlCommand("INSERT INTO Speldeltagare (SpelID, SpelarID, SpelarRoll) VALUES (@spelID, @spelarID, @spelarRoll)", conn);
+            cmd.Parameters.AddWithValue("@spelID", spelID);
+            cmd.Parameters.AddWithValue("@spelarID", spelarID);
+            cmd.Parameters.AddWithValue("@spelarRoll", spelarRoll);
+            cmd.ExecuteNonQuery();
+        }
+
+
 
         [HttpPost]
         public IActionResult InsertSpelar(SpelarModel spelar)
@@ -52,22 +105,22 @@ namespace FyraIRad.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Login(string username, string password)
-        {
-            var spelarMethods = new SpelarMethods(_configuration);
-            var spelar = spelarMethods.Login(username, password);
+        //[HttpPost]
+        //public IActionResult Login(string username, string password)
+        //{
+        //    var spelarMethods = new SpelarMethods(_configuration);
+        //    var spelar = spelarMethods.Login(username, password);
 
-            if (spelar != null)
-            {
-                HttpContext.Session.SetString("Username", spelar.Username);
-                HttpContext.Session.SetInt32("SpelarID", spelar.SpelarID);
-                return RedirectToAction("Profile");
-            }
+        //    if (spelar != null)
+        //    {
+        //        HttpContext.Session.SetString("Username", spelar.Username);
+        //        HttpContext.Session.SetInt32("SpelarID", spelar.SpelarID);
+        //        return RedirectToAction("Profile");
+        //    }
 
-            ViewBag.Error = "Fel användarnamn eller lösenord";
-            return View();
-        }
+        //    ViewBag.Error = "Fel användarnamn eller lösenord";
+        //    return View();
+        //}
 
         public IActionResult Profile()
         {

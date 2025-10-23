@@ -23,7 +23,7 @@
         <tr>
             <th>ID</th>
             <th>Status</th>
-            <th>Skapad</th>
+         @*    <th>Skapad</th> *@
             <th></th>
         </tr>
     </thead>
@@ -33,7 +33,7 @@
             <tr>
                 <td>@s.SpelID</td>
                 <td>@s.Status</td>
-                <td>@s.Skapad.ToLocalTime()</td>
+                @* <td>@s.Skapad.ToLocalTime()</td> *@
                 <td>
                     <a asp-action="Details" asp-route-id="@s.SpelID" class="btn btn-sm btn-outline-secondary">
                         Öppna

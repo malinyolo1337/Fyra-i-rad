@@ -9,11 +9,36 @@
     ViewData["Title"] = "Fyra i rad";
     int rows = Model.GetLength(0);
     int cols = Model.GetLength(1);
+
+}
+@if (TempData["Vinst"] != null)
+{
+    <div style="color:green;">@TempData["Vinst"]</div>
+}
+@if (TempData["Vinst"] != null)
+{
+    <script>
+        window.onload = function () {
+            alert("@TempData["Vinst"]");
+        };
+    </script>
 }
 
-<h2>Spelare @ViewBag.AktuellSpelare</h2>
+@if (ViewBag.Vinnare != null)
+{
+    <h3 style="color:green;">  @ViewBag.Vinnare har vunnit!</h3>
+}
+else
+{
+    <h3>Tur: Spelare @ViewBag.AktuellSpelare</h3>
+}
 
+
+  
+   @if (ViewBag.SpeletAvslutat != true)
+{
 <form method="post" asp-action="Drop">
+    <input type="hidden" name="spelID" value="@ViewBag.SpelID" />
     <table>
         <tr>
             @for (int c = 0; c < cols; c++)
@@ -36,7 +61,15 @@
             </tr>
         }
     </table>
-</form>
+    </form>
+}
+else
+{
+    <p style="color:red;">Spelet är avslutat. Starta ett nytt spel för att spela igen.</p>
+}
+
+
+
 
 <form method="get" asp-action="Reset">
     <button type="submit">Starta om</button>

@@ -17,7 +17,7 @@
             @Html.DisplayFor(model => model.SpelID)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
+       @*      @Html.DisplayNameFor(model => model.Status)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Status)
@@ -33,7 +33,7 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Avslutad)
-        </dd>
+        </dd> *@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.VinnarID)
         </dt>
@@ -42,7 +42,7 @@
         </dd>
     </dl>
 
-    @if (Model.Status == Fyra_i_rad.Models.GameStatus.Active)
+    @if (Model.Status == "Pågår"@* Fyra_i_rad.Models.GameStatus.Active *@)
     {
         <form asp-action="End" method="post" class="mt-3">
             @Html.AntiForgeryToken()
