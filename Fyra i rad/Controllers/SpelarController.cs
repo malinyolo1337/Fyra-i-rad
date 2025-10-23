@@ -134,7 +134,6 @@ namespace FyraIRad.Controllers
             var spelar = spelarMethods.GetSpelarById(spelarID.Value);
 
             ViewBag.Username = spelar.Username;
-            ViewBag.Markör = spelar.Markör;
             ViewBag.Vinster = spelar.AntalVinster;
             ViewBag.Förluster = spelar.AntalFörluster;
 

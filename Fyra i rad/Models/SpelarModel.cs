@@ -11,8 +11,6 @@ namespace FyraIRad.Models
 
         [Required(ErrorMessage = "Ange lösenord")]
         public string Password { get; set; }
-
-        public string Markör { get; set; } = "röd";
         public int AntalVinster { get; set; } = 0;
         public int AntalFörluster { get; set; } = 0;
     }
