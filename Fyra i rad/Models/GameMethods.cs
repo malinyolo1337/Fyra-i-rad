@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Configuration;
+using static Fyra_i_rad.Models.SpeldeltagareModel;
 
 namespace Fyra_i_rad.Models
 {
@@ -55,23 +56,46 @@ namespace Fyra_i_rad.Models
             return antal == 2;
         }
 
-        public List<int> HämtaDeltagare(int spelID)
+        //public List<int> HämtaDeltagare(int spelID)
+        //{
+        //    var deltagare = new List<int>();
+        //    using var conn = new SqlConnection(_connectionString);
+        //    conn.Open();
+
+        //    var cmd = new SqlCommand(
+        //        "SELECT SpelarID FROM Speldeltagare WHERE SpelID = @SpelID ORDER BY SpelarRoll", conn);
+        //    cmd.Parameters.AddWithValue("@SpelID", spelID);
+
+        //    using var reader = cmd.ExecuteReader();
+        //    while (reader.Read())
+        //    {
+        //        deltagare.Add(reader.GetInt32(0));
+        //    }
+
+        //    return deltagare;
+        //}
+        public List<SpelDeltagareModel> HämtaDeltagare(int spelID)
         {
-            var deltagare = new List<int>();
+            var lista = new List<SpelDeltagareModel>();
+
             using var conn = new SqlConnection(_connectionString);
             conn.Open();
 
-            var cmd = new SqlCommand(
-                "SELECT SpelarID FROM Speldeltagare WHERE SpelID = @SpelID ORDER BY SpelarRoll", conn);
-            cmd.Parameters.AddWithValue("@SpelID", spelID);
+            var cmd = new SqlCommand("SELECT SpelID, SpelarID, SpelarRoll FROM SpelDeltagare WHERE SpelID = @id", conn);
+            cmd.Parameters.AddWithValue("@id", spelID);
 
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                deltagare.Add(reader.GetInt32(0));
+                lista.Add(new SpelDeltagareModel
+                {
+                    SpelID = reader.GetInt32(0),
+                    SpelarID = reader.GetInt32(1),
+                    SpelarRoll = reader.GetString(2)
+                });
             }
 
-            return deltagare;
+            return lista;
         }
 
         public void UppdateraSpelTillVinst(int spelID, int spelarID)

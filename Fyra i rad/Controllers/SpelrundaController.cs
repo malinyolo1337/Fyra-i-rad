@@ -28,26 +28,51 @@ namespace Fyra_i_rad.Controllers
         }
 
 
-       
-
 
         public IActionResult VisaBräde(int spelID)
         {
-            
-
             var bräde = SpelrundaMethods.ByggSpelbräde(_connectionString, spelID);
-
             int turSpelareID = SpelrundaMethods.VemsTur(_connectionString, spelID);
-            int? spelarID1 = HttpContext.Session.GetInt32("SpelarID1");
-            int? spelarID2 = HttpContext.Session.GetInt32("SpelarID2");
 
+            var gameMethods = new GameMethods(_configuration);
+            var deltagare = gameMethods.HämtaDeltagare(spelID);
 
-            ViewBag.AktuellSpelare = turSpelareID == spelarID1 ? "1 (Röd)" : "2 (Blå)";
+            // Skapa färgkarta: SpelarID → färg (t.ex. "red", "blue")
+            var färgMap = deltagare.ToDictionary(
+                d => d.SpelarID,
+                d => d.SpelarRoll.ToLower() == "röd" ? "red" :
+                     d.SpelarRoll.ToLower() == "blå" ? "blue" : "gray" // fallback om något är fel
+            );
+
+            // Skicka färgkartan till vyn
+            ViewBag.FärgMap = färgMap;
+
+            // Visa turspelare med färg från roll
+            string aktuellFärg = färgMap.ContainsKey(turSpelareID) ? färgMap[turSpelareID] : "okänd";
+            ViewBag.AktuellSpelare = $"Spelare {turSpelareID} ({aktuellFärg})";
+
             ViewBag.SpelID = spelID;
-
             return View(bräde);
-          
         }
+
+
+        //public IActionResult VisaBräde(int spelID)
+        //{
+
+
+        //    var bräde = SpelrundaMethods.ByggSpelbräde(_connectionString, spelID);
+
+        //    int turSpelareID = SpelrundaMethods.VemsTur(_connectionString, spelID);
+        //    int? spelarID1 = HttpContext.Session.GetInt32("SpelarID1");
+        //    int? spelarID2 = HttpContext.Session.GetInt32("SpelarID2");
+
+
+        //    ViewBag.AktuellSpelare = turSpelareID == spelarID1 ? "1 (Röd)" : "2 (Blå)";
+        //    ViewBag.SpelID = spelID;
+
+        //    return View(bräde);
+
+        //}
 
 
         [HttpPost]
