@@ -22,11 +22,10 @@ namespace FyraIRad.Models
             {
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
-                    string sql = "INSERT INTO Spelare (Username, Password, Markör, AntalVinster, AntalFörluster) VALUES (@u, @p, @m, @v, @f)";
+                    string sql = "INSERT INTO Spelare (Username, Password, AntalVinster, AntalFörluster) VALUES (@u, @p, @m, @v, @f)";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@u", spelar.Username);
                     cmd.Parameters.AddWithValue("@p", spelar.Password);
-                    cmd.Parameters.AddWithValue("@m", spelar.Markör);
                     cmd.Parameters.AddWithValue("@v", spelar.AntalVinster);
                     cmd.Parameters.AddWithValue("@f", spelar.AntalFörluster);
 
@@ -60,7 +59,6 @@ namespace FyraIRad.Models
                             SpelarID = Convert.ToInt32(reader["SpelarID"]),
                             Username = reader["Username"].ToString(),
                             Password = reader["Password"].ToString(),
-                            Markör = reader["Markör"].ToString(),
                             AntalVinster = Convert.ToInt32(reader["AntalVinster"]),
                             AntalFörluster = Convert.ToInt32(reader["AntalFörluster"])
                         };
@@ -88,7 +86,6 @@ namespace FyraIRad.Models
                     spelar.SpelarID = Convert.ToInt32(reader["SpelarID"]);
                     spelar.Username = reader["Username"].ToString();
                     spelar.Password = reader["Password"].ToString();
-                    spelar.Markör = reader["Markör"].ToString();
                     spelar.AntalVinster = Convert.ToInt32(reader["AntalVinster"]);
                     spelar.AntalFörluster = Convert.ToInt32(reader["AntalFörluster"]);
                 }
@@ -121,7 +118,6 @@ namespace FyraIRad.Models
                             SpelarID = Convert.ToInt32(row["SpelarID"]),
                             Username = row["Username"].ToString(),
                             Password = row["Password"].ToString(),
-                            Markör = row["Markör"].ToString(),
                             AntalVinster = Convert.ToInt32(row["AntalVinster"]),
                             AntalFörluster = Convert.ToInt32(row["AntalFörluster"])
                         });
@@ -147,7 +143,7 @@ namespace FyraIRad.Models
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@Username", spelar.Username);
                     cmd.Parameters.AddWithValue("@Password", spelar.Password);
-                    cmd.Parameters.AddWithValue("@Markör", spelar.Markör);
+                 
                     cmd.Parameters.AddWithValue("@Vinster", spelar.AntalVinster);
                     cmd.Parameters.AddWithValue("@Förluster", spelar.AntalFörluster);
                     cmd.Parameters.AddWithValue("@SpelarID", spelar.SpelarID);
