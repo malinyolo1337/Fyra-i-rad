@@ -22,7 +22,7 @@ namespace FyraIRad.Models
             {
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
-                    string sql = "INSERT INTO Spelare (Username, Password, AntalVinster, AntalFörluster) VALUES (@u, @p, @m, @v, @f)";
+                    string sql = "INSERT INTO Spelare (Username, Password, AntalVinster, AntalFörluster) VALUES (@u, @p, @v, @f)";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@u", spelar.Username);
                     cmd.Parameters.AddWithValue("@p", spelar.Password);
