@@ -1,0 +1,39 @@
+﻿@model List<FyraIRad.Models.SpelarModel>
+
+<h2>Alla spelare</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Användarnamn</th>
+            <th>Vinster</th>
+            <th>Förluster</th>
+            <th>Åtgärder</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var spelar in Model)
+        {
+            <tr>
+                <td>@spelar.Username</td>
+                <td>@spelar.AntalVinster</td>
+                <td>@spelar.AntalFörluster</td>
+                <td>
+                    <a asp-action="DeleteSpelar" asp-route-spelarID="@spelar.SpelarID" class="btn btn-danger btn-sm">Ta bort</a>
+                    <a asp-action="EditSpelar" asp-route-spelarID="@spelar.SpelarID" class="btn btn-secondary btn-sm">Redigera</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+</table>

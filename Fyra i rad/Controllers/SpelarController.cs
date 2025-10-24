@@ -45,6 +45,7 @@ namespace FyraIRad.Controllers
         }
 
 
+
         [HttpPost]
         public IActionResult LoginTvåSpelare(string username1, string password1, string username2, string password2)
         {
@@ -156,13 +157,13 @@ namespace FyraIRad.Controllers
             return View(spelarList);
         }
 
-        [HttpGet]
-        public IActionResult EditSpelar(int spelarID)
-        {
-            var spelarMethods = new SpelarMethods(_configuration);
-            var spelar = spelarMethods.GetSpelarById(spelarID);
-            return View(spelar);
-        }
+        //[HttpGet]
+        //public IActionResult EditSpelar(int spelarID)
+        //{
+        //    var spelarMethods = new SpelarMethods(_configuration);
+        //    var spelar = spelarMethods.GetSpelarById(spelarID);
+        //    return View(spelar);
+        //}
 
         [HttpPost]
         public IActionResult EditSpelar(SpelarModel spelar)
@@ -178,23 +179,83 @@ namespace FyraIRad.Controllers
             return RedirectToAction("SelectSpelar");
         }
 
+        
+
         [HttpGet]
-        public IActionResult DeleteSpelar(int spelarID)
+        public IActionResult EditSpelar()
         {
+            int? spelarID = HttpContext.Session.GetInt32("SpelarID");
+            if (spelarID == null) return RedirectToAction("Login");
+
             var spelarMethods = new SpelarMethods(_configuration);
-            var spelar = spelarMethods.GetSpelarById(spelarID);
+            var spelar = spelarMethods.GetSpelarById(spelarID.Value);
+            return View(spelar);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteSpelar()
+        {
+            int? spelarID = HttpContext.Session.GetInt32("SpelarID");
+            if (spelarID == null) return RedirectToAction("Login");
+
+            var spelarMethods = new SpelarMethods(_configuration);
+            var spelar = spelarMethods.GetSpelarById(spelarID.Value);
             return View(spelar);
         }
 
         [HttpPost]
-        public IActionResult DeleteSpelarConfirmed(int spelarID)
+        public IActionResult DeleteSpelarConfirmed()
         {
+            int? spelarID = HttpContext.Session.GetInt32("SpelarID");
+            if (spelarID == null) return RedirectToAction("Login");
+
             var spelarMethods = new SpelarMethods(_configuration);
             string error;
-            spelarMethods.DeleteSpelar(spelarID, out error);
+            spelarMethods.DeleteSpelar(spelarID.Value, out error);
 
+            HttpContext.Session.Clear(); // logga ut efter radering
             TempData["Error"] = error;
-            return RedirectToAction("SelectSpelar");
+            return RedirectToAction("Login");
         }
+
+
+
+
+
+        //[HttpPost]
+        //public IActionResult DeleteSpelarConfirmed(int spelarID)
+        //{
+        //    var spelarMethods = new SpelarMethods(_configuration);
+        //    string error;
+        //    spelarMethods.DeleteSpelar(spelarID, out error);
+
+        //    TempData["Error"] = error;
+        //    return RedirectToAction("SelectSpelar");
+        //}
+
+        [HttpGet]
+        public IActionResult LoginRedigera()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult LoginRedigera(string username, string password)
+        {
+            var spelarMethods = new SpelarMethods(_configuration);
+            var spelar = spelarMethods.Login(username, password);
+
+            if (spelar != null)
+            {
+                HttpContext.Session.SetString("Username", spelar.Username);
+                HttpContext.Session.SetInt32("SpelarID", spelar.SpelarID);
+                return RedirectToAction("EditSpelar");
+            }
+
+            ViewBag.Error = "Fel användarnamn eller lösenord";
+            return View();
+        }
+
+
     }
 }

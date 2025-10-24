@@ -139,7 +139,7 @@ namespace FyraIRad.Models
             {
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
-                    string sql = "UPDATE Spelare SET Username=@Username, Password=@Password, Markör=@Markör, AntalVinster=@Vinster, AntalFörluster=@Förluster WHERE SpelarID=@SpelarID";
+                    string sql = "UPDATE Spelare SET Username=@Username, Password=@Password, AntalVinster=@Vinster, AntalFörluster=@Förluster WHERE SpelarID=@SpelarID";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@Username", spelar.Username);
                     cmd.Parameters.AddWithValue("@Password", spelar.Password);
