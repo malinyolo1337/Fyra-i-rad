@@ -52,6 +52,10 @@ namespace Fyra_i_rad.Controllers
             ViewBag.AktuellSpelare = $"Spelare {turSpelareID} ({aktuellFärg})";
 
             ViewBag.SpelID = spelID;
+
+            ViewBag.SpeletAvslutat = gameMethods.AvslutatSpel(spelID);  // bool: true när spelet är avslutat
+            ViewBag.VinnareID = gameMethods.HämtaVinnare(spelID);  // int? : vinnaren om det finns
+
             return View(bräde);
         }
 

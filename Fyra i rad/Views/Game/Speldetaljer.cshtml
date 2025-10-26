@@ -54,6 +54,14 @@
         </form>
     }
 
+    else
+    {
+        <form asp-controller="Game" asp-action="Create" method="get" class="mt-3">
+            <button type="submit" class="btn btn-success">Starta nytt spel</button>
+        </form>
+    }
+
+
     <p class="mt-3">
         <a asp-action="Index" class="btn btn-link">Tillbaka</a>
     </p>

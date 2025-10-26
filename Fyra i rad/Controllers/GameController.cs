@@ -47,6 +47,27 @@ namespace Fyra_i_rad.Controllers
 
             return RedirectToAction("VisaBräde", "Spelrunda", new { spelID });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult End(int id)
+        {
+            // Markera spelet som avslutat (utan vinnare)
+            using var conn = new SqlConnection(_connectionString);
+            conn.Open();
+
+            using (var cmd = new SqlCommand(
+                "UPDATE Spel SET Status = 'Avslutad' WHERE SpelID = @id", conn))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.ExecuteNonQuery();
+            }
+
+            TempData["Msg"] = "Spelet har avslutats.";
+            // Tillbaka till listan över spel eller där du vill landa
+            //return RedirectToAction("AktivaSpel", "Game");
+            return RedirectToAction("VisaBräde", "SpelRunda", new {spelID = id});
+        }
     }
 }
 
