@@ -2,7 +2,9 @@
     ViewData["Title"] = "Spelregler – Fyra i rad";
 }
 
-<div class="container mt-4">
+<div class="container mt-4 text-start">
+    
+
     <h1 class="display-6">Spelregler – Fyra i rad</h1>
     <p class="text-muted">Kortfattat hur spelet fungerar.</p>
 
@@ -44,7 +46,7 @@
     </table>
 
     <div class="mt-4 d-flex gap-2">
-        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Till startsidan</a>
+       @*  <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Till startsidan</a> *@
         <a asp-controller="Spelar" asp-action="Login" class="btn btn-primary">Logga in &amp; spela</a>
     </div>
-</div>
+</>
