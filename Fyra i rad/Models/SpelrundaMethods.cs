@@ -428,6 +428,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Fyra_i_rad.Models
 {
+    //Spelregler
     public static class SpelrundaMethods
     {
         // Bygger spelbrädet från databasen

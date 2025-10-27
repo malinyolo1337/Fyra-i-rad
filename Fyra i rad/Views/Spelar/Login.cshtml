@@ -4,21 +4,29 @@
     ViewData["Title"] = "Logga in";
 }
 
-<h2>Logga in</h2>
-<h3></h3>
+<h2>Logga in för att spela fyra i rad</h2>
+<br />
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green;">@TempData["Success"]</p>
+}
 <form method="post" asp-action="LoginTvåSpelare">
-    <h3>Spelare 1</h3>
+    <h4 style= "color: red">Spelare röd:</h4>
     <input name="username1" placeholder="Användarnamn" />
     <input name="password1" type="password" placeholder="Lösenord" />
-
-    <h3>Spelare 2</h3>
+    <br /> <br /> 
+    <h4 style="color:blue">Spelare blå:</h4>
     <input name="username2" placeholder="Användarnamn" />
     <input name="password2" type="password" placeholder="Lösenord" />
-
-    <button type="submit">Starta spel</button>
+    <br /> <br />
+    <form asp-controller="Game" asp-action="StartaSpel" method="get" class="d-inline">
+        <button type="submit" class="btn btn-success">Starta spel</button>
+    </form>
+    @* <button type="submit">Starta spel</button> *@
 </form>
 
 
 <div>
-    <a asp-action="InsertSpelar">Skapa ny spelare</a>
+    <a asp-action="InsertSpelar">Registrera ny spelare</a>
 </div>

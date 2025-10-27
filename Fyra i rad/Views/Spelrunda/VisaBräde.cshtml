@@ -1,4 +1,7 @@
 ﻿ @model int[,]
+@{
+    Layout = "_Layout";
+}
 
 
 
@@ -12,26 +15,39 @@
     var färgMap = ViewBag.FärgMap as Dictionary<int, string>;
 
 }
-@if (TempData["Vinst"] != null)
+@* @if (TempData["Vinst"] != null)
 {
     <div style="color:green;">@TempData["Vinst"]</div>
-}
-@if (TempData["Vinst"] != null)
+} *@
+@* @if (TempData["PopupVinst"] != null)
 {
     <script>
         window.onload = function () {
             alert("@TempData["Vinst"]");
         };
     </script>
-}
+} *@
 
-@if (ViewBag.Vinnare != null)
+
+
+
+@if (TempData["Vinst"] != null)
 {
-    <h3 style="color:green;">  @ViewBag.Vinnare har vunnit!</h3>
+    <h3 style="color:green;">@TempData["Vinst"]</h3>
 }
 else
 {
-    <h3>Tur: Spelare @ViewBag.AktuellSpelare</h3>
+    <h3>
+        Tur: @ViewBag.AktuellSpelare 
+    </h3>
+        @* 
+        <span style="display:inline-block; width:15px; height:15px; border-radius:50%; background-color:@färgMap.FirstOrDefault(x => @ViewBag.AktuellSpelare.ToString().Contains(x.Key.ToString())).Value; margin-left:5px;"></span> *@
+   
+
+
+    @* <h3>Tur: @ViewBag.AktuellSpelare (Viewbag.@AktuellFärgText)
+        <span style="display:inline-block; width:15px; height:15px; border-radius:50%; background-color:@färgMap[aktuellSpelare]; margin-left:5px;"></span>
+    </h3> *@
 }
 
 
@@ -60,11 +76,14 @@ else
 
 
   
-   @if (ViewBag.SpeletAvslutat != true)
-{
-<form method="post" asp-controller="Spelrunda" asp-action="Drop">
+   @if (ViewBag.SpeletAvslutat != true){
+   <div class="d-flex justify-content-center">
+    <div class="spelbräde-ram">
+
+    <form  method="post" asp-controller="Spelrunda" asp-action="Drop">
     <input type="hidden" name="spelID" value="@ViewBag.SpelID" />
-    <table>
+     
+       <table>
         <tr>
             @for (int c = 0; c < cols; c++)
             {
@@ -73,7 +92,7 @@ else
                 </td>
             }
         </tr>
-
+  
         @for (int r = 0; r < rows; r++)
         {
             <tr>
@@ -81,14 +100,28 @@ else
                     {
                         var cell = Model[r, c];
                         string color = färgMap != null && färgMap.ContainsKey(cell) ? färgMap[cell] : "white";
-                        <td style="width:40px; height:40px; background-color:@color; border:1px solid black;"></td>
+                       @*  <td style="width:40px; height:40px; background-color:@color; border:1px solid black;"></td> 
+                             <td style="padding:5px;">
+                                <div class="rund-markör" style="background-color:@color;"></div>
+                            </td> *@
+
+                       <td style="width:50px; height:50px; padding:5px;">
+                            <div class="rund-markör" style="background-color:@color;"></div> 
+                            @* <div style="width:100%; height:100%; background-color:@color; border-radius:50%; border:1px solid black;"></div>  *@
+                        </td>
+
 
                     
                 }
             </tr>
-        }
-    </table>
-    </form>
+            }
+  
+            </table>
+
+
+        </form>
+    </div>
+</div>
 }
 else
 {
@@ -98,8 +131,6 @@ else
 
 
 
-<form method="get" asp-action="Reset">
-    <button type="submit">Starta om</button>
-</form>
+
 
 

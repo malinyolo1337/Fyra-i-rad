@@ -4,7 +4,8 @@
     ViewData["Title"] = "Profile";
 }
 
-
+<div class ="text-center"></div>
+<h1>Min profil</h1>
 <h2>Välkommen, @ViewBag.Username!</h2>
 
 
@@ -12,7 +13,7 @@
 <p>Förluster: @ViewBag.Förluster</p>
 
 <a asp-action="DeleteSpelar" class="btn btn-danger">Ta bort mitt konto</a>
-<a asp-action="LoginRedigera" class="btn btn-secondary">Redigera min profil</a>
+<a asp-action="EditSpelar" class="btn btn-secondary">Redigera min profil</a>
 
 
 <a asp-action="Logout">Logga ut</a>

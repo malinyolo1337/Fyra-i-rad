@@ -4,10 +4,11 @@
     ViewData["Title"] = "InsertSpelar";
 }
 
-<h1>Skapa ny användare</h1>
+<h1>Registrera ny användare</h1>
 
 <hr />
 <div class="row">
+    <div class="d-flex justify-content-center">
     <div class="col-md-4">
         <form asp-action="InsertSpelar">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -29,7 +30,7 @@
         </form>
     </div>
 </div>
-
+</div>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

@@ -56,24 +56,7 @@ namespace Fyra_i_rad.Models
             return antal == 2;
         }
 
-        //public List<int> HämtaDeltagare(int spelID)
-        //{
-        //    var deltagare = new List<int>();
-        //    using var conn = new SqlConnection(_connectionString);
-        //    conn.Open();
-
-        //    var cmd = new SqlCommand(
-        //        "SELECT SpelarID FROM Speldeltagare WHERE SpelID = @SpelID ORDER BY SpelarRoll", conn);
-        //    cmd.Parameters.AddWithValue("@SpelID", spelID);
-
-        //    using var reader = cmd.ExecuteReader();
-        //    while (reader.Read())
-        //    {
-        //        deltagare.Add(reader.GetInt32(0));
-        //    }
-
-        //    return deltagare;
-        //}
+        
         public List<SpelDeltagareModel> HämtaDeltagare(int spelID)
         {
             var lista = new List<SpelDeltagareModel>();
@@ -81,8 +64,8 @@ namespace Fyra_i_rad.Models
             using var conn = new SqlConnection(_connectionString);
             conn.Open();
 
-            var cmd = new SqlCommand("SELECT SpelID, SpelarID, SpelarRoll FROM SpelDeltagare WHERE SpelID = @id", conn);
-            cmd.Parameters.AddWithValue("@id", spelID);
+            var cmd = new SqlCommand("SELECT SpelID, SpelarID, SpelarRoll FROM SpelDeltagare WHERE SpelID = @spelid", conn);
+            cmd.Parameters.AddWithValue("@spelid", spelID);
 
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -97,14 +80,26 @@ namespace Fyra_i_rad.Models
 
             return lista;
         }
-
-        public void UppdateraSpelTillVinst(int spelID, int spelarID)
+        public string HämtaUsername(int spelarID)
         {
             using var conn = new SqlConnection(_connectionString);
             conn.Open();
-           
 
-            // Uppdatera spelstatus och vinnare
+            var cmd = new SqlCommand("SELECT Username FROM Spelare WHERE SpelarID = @namn", conn);
+            cmd.Parameters.AddWithValue("@namn", spelarID);
+
+            var result = cmd.ExecuteScalar();
+            return result != null ? result.ToString() : $"Spelare {spelarID}";
+        }
+
+
+        public void UppdateraVinnareOchFörlorare(int spelID, int spelarID)
+   
+        {
+            using var conn = new SqlConnection(_connectionString);
+            conn.Open();
+
+            // 1. Uppdatera spelet
             using (var cmd = new SqlCommand(
                 "UPDATE Spel SET Status = 'Avslutad', VinnarID = @SpelarID WHERE SpelID = @SpelID", conn))
             {
@@ -113,14 +108,40 @@ namespace Fyra_i_rad.Models
                 cmd.ExecuteNonQuery();
             }
 
-            // Uppdatera spelarens vinstantal
+            // 2. Uppdatera VINNARE med +1 vinst
             using (var cmd = new SqlCommand(
                 "UPDATE Spelare SET AntalVinster = AntalVinster + 1 WHERE SpelarID = @SpelarID", conn))
             {
                 cmd.Parameters.AddWithValue("@SpelarID", spelarID);
                 cmd.ExecuteNonQuery();
             }
+
+            // 3. Hämta FÖRLORARE (den andra spelaren)
+            int förlorareID = 0;
+            using (var cmd = new SqlCommand(
+                "SELECT SpelarID FROM SpelDeltagare WHERE SpelID = @SpelID AND SpelarID != @VinnareID", conn))
+            {
+                cmd.Parameters.AddWithValue("@SpelID", spelID);
+                cmd.Parameters.AddWithValue("@VinnareID", spelarID);
+                using var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    förlorareID = reader.GetInt32(0);
+                }
+            }
+
+            // 4. Uppdatera FÖRLORARE med +1 förlust
+            if (förlorareID != 0)
+            {
+                using var cmd = new SqlCommand(
+                    "UPDATE Spelare SET AntalFörluster = AntalFörluster + 1 WHERE SpelarID = @FörlorareID", conn);
+                cmd.Parameters.AddWithValue("@FörlorareID", förlorareID);
+                cmd.ExecuteNonQuery();
+            }
         }
+
+            
+        
 
 
 

@@ -27,8 +27,15 @@ namespace FyraIRad.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult LoginProfil()
+        {
+            return View(); 
+        }
+
         [HttpPost]
-        public IActionResult Login(string username, string password)
+        public IActionResult LoginProfil(string username, string password)
         {
             var spelarMethods = new SpelarMethods(_configuration);
             var spelar = spelarMethods.Login(username, password);
@@ -106,30 +113,16 @@ namespace FyraIRad.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult Login(string username, string password)
-        //{
-        //    var spelarMethods = new SpelarMethods(_configuration);
-        //    var spelar = spelarMethods.Login(username, password);
-
-        //    if (spelar != null)
-        //    {
-        //        HttpContext.Session.SetString("Username", spelar.Username);
-        //        HttpContext.Session.SetInt32("SpelarID", spelar.SpelarID);
-        //        return RedirectToAction("Profile");
-        //    }
-
-        //    ViewBag.Error = "Fel användarnamn eller lösenord";
-        //    return View();
-        //}
-
+ [HttpGet]
         public IActionResult Profile()
         {
             string? username = HttpContext.Session.GetString("Username");
             int? spelarID = HttpContext.Session.GetInt32("SpelarID");
 
             if (username == null || spelarID == null)
-                return RedirectToAction("Login");
+            {
+                return RedirectToAction("LoginProfil");
+            }
 
             var spelarMethods = new SpelarMethods(_configuration);
             var spelar = spelarMethods.GetSpelarById(spelarID.Value);
@@ -140,30 +133,29 @@ namespace FyraIRad.Controllers
 
             return View();
         }
+        
 
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+            return RedirectToAction("LoginProfil");
         }
 
         public IActionResult SelectSpelar()
         {
             var spelarMethods = new SpelarMethods(_configuration);
             string error;
-            var spelarList = spelarMethods.GetSpelarModelList(out error);
+          
+            var spelarList = spelarMethods.GetSpelarModelList(out error)
+            .OrderByDescending(s => s.AntalVinster)
+            .ToList();
+
 
             ViewBag.Error = error;
             return View(spelarList);
         }
 
-        //[HttpGet]
-        //public IActionResult EditSpelar(int spelarID)
-        //{
-        //    var spelarMethods = new SpelarMethods(_configuration);
-        //    var spelar = spelarMethods.GetSpelarById(spelarID);
-        //    return View(spelar);
-        //}
+
 
         [HttpPost]
         public IActionResult EditSpelar(SpelarModel spelar)
@@ -218,20 +210,6 @@ namespace FyraIRad.Controllers
             return RedirectToAction("Login");
         }
 
-
-
-
-
-        //[HttpPost]
-        //public IActionResult DeleteSpelarConfirmed(int spelarID)
-        //{
-        //    var spelarMethods = new SpelarMethods(_configuration);
-        //    string error;
-        //    spelarMethods.DeleteSpelar(spelarID, out error);
-
-        //    TempData["Error"] = error;
-        //    return RedirectToAction("SelectSpelar");
-        //}
 
         [HttpGet]
         public IActionResult LoginRedigera()

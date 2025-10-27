@@ -7,6 +7,6 @@
         public string Status { get; set; } //pågår eller avslutat
 
         
-        public int? VinnarID { get; set; }
+        public int? VinnarID { get; set; } //Användas inte
     }
 }
