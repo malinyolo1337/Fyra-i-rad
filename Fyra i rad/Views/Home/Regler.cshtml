@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "Spelregler – Fyra i rad";
+}
+
+<div class="container mt-4">
+    <h1 class="display-6">Spelregler – Fyra i rad</h1>
+    <p class="text-muted">Kortfattat hur spelet fungerar.</p>
+
+    <hr />
+
+    <h2 class="h5">Mål</h2>
+    <p>Var först med att få <strong>fyra marker i rad</strong> – vågrätt, lodrätt eller diagonalt.</p>
+
+    <h2 class="h5 mt-3">Så här spelar du</h2>
+    <ol>
+        <li>Två spelare loggar in.</li>
+        <li>Spelet skapas och spelare 1 börjar.</li>
+        <li>På din tur väljer du en <em>kolumn</em>; markören faller till första lediga ruta.</li>
+        <li>Fortsätt turas om tills någon får fyra i rad eller brädet är fullt.</li>
+    </ol>
+
+    <h2 class="h5 mt-3">Vinst</h2>
+    <ul>
+        <li>Fyra i rad gäller i alla riktningar: <strong>─</strong>, <strong>|</strong>, <strong>↘</strong>, <strong>↙</strong>.</li>
+        <li>Vid vinst uppdateras spelets status och vinnaren registreras.</li>
+    </ul>
+
+    <h2 class="h5 mt-3">Snabbinfo</h2>
+    <table class="table table-sm">
+        <tbody>
+            <tr>
+                <th scope="row">Bräde</th>
+                <td>6 rader × 7 kolumner</td>
+            </tr>
+            <tr>
+                <th scope="row">Spelare</th>
+                <td>Röd &amp; Blå</td>
+            </tr>
+            <tr>
+                <th scope="row">Ogiltigt drag</th>
+                <td>En full kolumn eller om det inte är din tur</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-4 d-flex gap-2">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Till startsidan</a>
+        <a asp-controller="Spelar" asp-action="Login" class="btn btn-primary">Logga in &amp; spela</a>
+    </div>
+</div>
